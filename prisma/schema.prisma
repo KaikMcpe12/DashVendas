@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id                String           @id @default(uuid())
+  name              String
+  price             Float
+  type              String
+  user_has_products UserHasProduct[]
+  Review            Review[]
+
+  @@map("products")
+}
+
+model User {
+  id                String           @id @default(uuid())
+  name              String
+  age               Int
+  gender            String
+  locale            String
+  phone             String
+  email             String
+  password          String
+  createdAt         DateTime         @default(now())
+  user_has_products UserHasProduct[]
+  Review            Review[]
+
+  @@map("users")
+}
+
+model UserHasProduct {
+  userId       String
+  productId    String
+  datePurchase DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@id([userId, productId])
+  @@map("user_has_products")
+}
+
+model Review {
+  userId    String
+  productId String
+  rating    Int
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@id([userId, productId])
+  @@map("reviews")
+}
