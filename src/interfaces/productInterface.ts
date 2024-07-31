@@ -6,8 +6,7 @@ export interface IProduct{
 }
 
 export interface ISalesByProduct{
-    name: string;
-    age?: number;
+    dateBirth?: Date;
     gender?: string;
     locale?: string;
     date?: Date;
@@ -27,13 +26,14 @@ export interface ITopSales{
 
 export interface IProductRepository{
     listAllProducts(): Promise<IProduct[]>;
+    findProductById(id: string): Promise<IProduct | null>;
 }
 
 export interface IidProductRepository{
     idProductGroupByAge(id: string): Promise<ISalesByProduct[]>;
-    idProductGroupByGender(id: string): Promise<ISalesByProduct[]>;
-    idProductGroupByLocale(id: string): Promise<ISalesByProduct[]>;
-    idProductGroupByDate(id: string): Promise<ISalesByProduct[]>;
+    // idProductGroupByGender(id: string): Promise<ISalesByProduct[]>;
+    // idProductGroupByLocale(id: string): Promise<ISalesByProduct[]>;
+    // idProductGroupByDate(id: string): Promise<ISalesByProduct[]>;
 }
 
 export interface ICompareProductRepository{
