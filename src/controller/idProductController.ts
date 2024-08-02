@@ -12,7 +12,7 @@ class IdProductController{
         this.productRepository = new ProductRepository()
     }
 
-    async seachProductGroupByAge(id: string){
+    async dataProductGroupByAge(id: string){
         const product = await this.productRepository.findProductById(id)
 
         if(!product){
@@ -45,6 +45,67 @@ class IdProductController{
             "labels": ['3 - 6', '7 - 11', '12 - 18', '19 - 30', '31 - 50', '50 +'],
             "label": product.name,
             "data": groupByAge
+        }
+    }
+
+    // async seachProductByDate(id: string){
+    //     const product = await this.productRepository.findProductById(id)
+
+    //     if(!product){
+    //         throw new ClientError('Product not exist')
+    //     }
+
+    //     const salesProduct = await this.idProductRepository.idProductGroupByAge(id)
+
+    //     //trabalhar com o formato 2024/06
+    // }
+
+    async dataProductByGender(id: string){
+        const product = await this.productRepository.findProductById(id)
+
+        if(!product){
+            throw new ClientError('Product not exist')
+        }
+
+        const salesProduct = await this.idProductRepository.idProductGroupByGender(id)
+        console.log(salesProduct)
+
+        let labels: string[] = []
+        let data: number[] = []
+
+        salesProduct.forEach((item) => {
+            labels.push(item.gender as string)
+            data.push(item.amount)
+        })
+
+        return {
+            "labels": labels,
+            "label": product.name,
+            "data": data
+        }
+    }
+
+    async dataProductByLocale(id: string){
+        const product = await this.productRepository.findProductById(id)
+
+        if(!product){
+            throw new ClientError('Product not exist')
+        }
+
+        const salesProduct = await this.idProductRepository.idProductGroupByLocale(id)
+
+        let labels: string[] = []
+        let data: number[] = []
+
+        salesProduct.forEach((item) => {
+            labels.push(item.locale as string)
+            data.push(item.amount)
+        })
+
+        return {
+            "labels": labels,
+            "label": product.name,
+            "data": data
         }
     }
 }

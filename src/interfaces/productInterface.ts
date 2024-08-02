@@ -31,9 +31,9 @@ export interface IProductRepository{
 
 export interface IidProductRepository{
     idProductGroupByAge(id: string): Promise<ISalesByProduct[]>;
-    // idProductGroupByGender(id: string): Promise<ISalesByProduct[]>;
+    idProductGroupByDate(id: string): Promise<ISalesByProduct[]>;
+    idProductGroupByGender(id: string): Promise<ISalesByProduct[]>;
     // idProductGroupByLocale(id: string): Promise<ISalesByProduct[]>;
-    // idProductGroupByDate(id: string): Promise<ISalesByProduct[]>;
 }
 
 export interface ICompareProductRepository{
