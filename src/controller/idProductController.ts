@@ -3,6 +3,10 @@ import { dayjs } from "../lib/dayjs";
 import { IdProductRepository } from "../repositories/idProductRepository";
 import { ProductRepository } from "../repositories/ProductRepository";
 
+import customParse from 'dayjs/plugin/customParseFormat'
+
+dayjs.extend(customParse)
+
 class IdProductController{
     private idProductRepository;
     private productRepository;
@@ -48,17 +52,72 @@ class IdProductController{
         }
     }
 
-    // async seachProductByDate(id: string){
-    //     const product = await this.productRepository.findProductById(id)
+    async seachProductByDate(id: string, date: Date){
+        const product = await this.productRepository.findProductById(id)
 
-    //     if(!product){
-    //         throw new ClientError('Product not exist')
-    //     }
+        if(!product){
+            throw new ClientError('Product not exist')
+        }
 
-    //     const salesProduct = await this.idProductRepository.idProductGroupByAge(id)
+        const salesProduct = await this.idProductRepository.idProductGroupByDate(id)
 
-    //     //trabalhar com o formato 2024/06
-    // }
+        //trabalhar com o formato 2024/06
+        // MMM/YY -> YY = mostra os meses do ano
+        // DD/MMM/YY -> MM/YY = mostra os dias do ano
+        // else -> null = 10 anos atrasados
+
+        // console.log(salesProduct)
+
+        let labels: string[] = []
+        let data: number[] = []
+
+        if(dayjs(date, 'YYYY', true).isValid()){
+            labels = Array.from({ length: 12 }, (_, i) => dayjs(`${date}`).add(i, 'month').format('MMM/YYYY'))
+            data = new Array(12).fill(0)
+            const year = dayjs(date).year()
+    
+            salesProduct.forEach((item) => {
+                const saleDate = dayjs(item.date)
+                if (saleDate.year() === year) {
+                    const monthIndex = saleDate.month()
+                    data[monthIndex] += 1 * item.amount
+                }
+            })
+        } else if (dayjs(date, 'MM/YYYY', true).isValid()){
+            const monthYear = dayjs(date, 'MM/YYYY')
+            const daysInMonth = monthYear.daysInMonth()
+            labels = Array.from({ length: daysInMonth }, (_, i) => monthYear.add(i,'day').format('DD/MM/YY'))
+
+            data = new Array(daysInMonth).fill(0)
+
+            salesProduct.forEach((item) => {
+                const saleDate = dayjs(item.date);
+                if (saleDate.year() === monthYear.year() && saleDate.month() === monthYear.month()) {
+                    const dayIndex = saleDate.date() - 1
+                    data[dayIndex] += 1 * item.amount
+                }
+            });
+        } else {
+            const actualYear = dayjs().year()
+            const startYear = actualYear - 9
+            labels = Array.from({ length: 10 }, (_, i) => (startYear + i).toString())
+            data = new Array(10).fill(0)
+            
+            salesProduct.forEach((item) => {
+                const saleDate = dayjs(item.date).year()
+                if (saleDate >= startYear && saleDate <= actualYear) {
+                    const yearIndex = saleDate - startYear
+                    data[yearIndex] += 1 * item.amount
+                }
+            })
+        }
+
+        return {
+            "labels": labels,
+            "label": product.name,
+            "data": data
+        }
+    }
 
     async dataProductByGender(id: string){
         const product = await this.productRepository.findProductById(id)
@@ -68,7 +127,6 @@ class IdProductController{
         }
 
         const salesProduct = await this.idProductRepository.idProductGroupByGender(id)
-        console.log(salesProduct)
 
         let labels: string[] = []
         let data: number[] = []

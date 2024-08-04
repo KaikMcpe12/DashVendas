@@ -29,7 +29,7 @@ class IdProductRepository implements IidProductRepository{
         const data = await prisma.userHasProduct.groupBy({
             by: ["datePurchase"],
             where: {
-                productId: id
+                productId: id,
             },
             _count: {
                 _all: true
