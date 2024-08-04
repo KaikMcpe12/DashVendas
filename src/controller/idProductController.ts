@@ -62,11 +62,9 @@ class IdProductController{
         const salesProduct = await this.idProductRepository.idProductGroupByDate(id)
 
         //trabalhar com o formato 2024/06
-        // MMM/YY -> YY = mostra os meses do ano
-        // DD/MMM/YY -> MM/YY = mostra os dias do ano
+        // MMM/YY -> YYYY = mostra os meses do ano
+        // DD/MMM/YY -> MM/YYYY = mostra os dias do ano
         // else -> null = 10 anos atrasados
-
-        // console.log(salesProduct)
 
         let labels: string[] = []
         let data: number[] = []
@@ -105,7 +103,7 @@ class IdProductController{
             
             salesProduct.forEach((item) => {
                 const saleDate = dayjs(item.date).year()
-                if (saleDate >= startYear && saleDate <= actualYear) {
+                if (saleDate >= startYear) {
                     const yearIndex = saleDate - startYear
                     data[yearIndex] += 1 * item.amount
                 }

@@ -8,6 +8,7 @@ import { helloWorld } from './routes/helloworld'
 import { idProductByDateRoute } from './routes/idProduct/idProductByDateRoutes'
 import { idProductByGenderRoute } from './routes/idProduct/idProductByGenderRoutes'
 import { idProductByLocaleRoute } from './routes/idProduct/idProductByLocaleRoutes'
+import { topProductsByAgeRoute } from './routes/topProducts/topProductsByAgeRoutes'
 
 const app: FastifyInstance = fastify()
 
@@ -26,6 +27,8 @@ app.register(idProductByAgeRoute)
 app.register(idProductByDateRoute)
 app.register(idProductByGenderRoute)
 app.register(idProductByLocaleRoute)
+
+app.register(topProductsByAgeRoute)
 
 app.listen({ port: env.PORT }, (err) => {
     console.log(err)

@@ -14,13 +14,7 @@ export interface ISalesByProduct{
 }
 
 export interface ITopSales{
-    name: string;
-    age?: number;
-    gender?: string;
-    locale?: string;
-    type?: string;
-    price?: string;
-    review?: number;
+    productId: string;
     amount: number;
 }
 
@@ -44,11 +38,11 @@ export interface ICompareProductRepository{
 }
 
 export interface ITopProductRepository{
-    topProductGroupByAge(minAge: number, maxAge: number): Promise<ITopSales[]>;
+    topProductGroupByAge(minDate: Date, maxDate: Date): Promise<ITopSales[]>;
     topProductGroupByGender(gender: string): Promise<ITopSales[]>;
     topProductGroupByLocale(locale: string): Promise<ITopSales[]>;
     topProductGroupByDate(date: Date): Promise<ITopSales[]>;
     topProductGroupByType(type: string): Promise<ITopSales[]>;
-    topProductGroupByPrice(type: string): Promise<ITopSales[]>;
-    topProductGroupByReview(type: string): Promise<ITopSales[]>;
+    topProductGroupByPrice(price: string): Promise<ITopSales[]>;
+    topProductGroupByReview(review: string): Promise<ITopSales[]>;
 }

@@ -15,7 +15,7 @@ class ProductRepository implements IProductRepository{
             }
         })
 
-        return data || null
+        return data 
     }
 }
 
