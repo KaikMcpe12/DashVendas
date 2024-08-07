@@ -17,6 +17,26 @@ class ProductRepository implements IProductRepository{
 
         return data 
     }
+
+    async listAllType(): Promise<object[]> {
+        const data = await prisma.product.findMany({
+            select: {
+                type: true
+            }
+        })
+
+        return data
+    }
+
+    async findTypeByName(type: string): Promise<IProduct | null>{
+        const data = await prisma.product.findFirst({
+            where: {
+                type
+            }
+        })
+
+        return data
+    }
 }
 
 export { ProductRepository }

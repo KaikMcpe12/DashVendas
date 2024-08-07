@@ -21,6 +21,8 @@ export interface ITopSales{
 export interface IProductRepository{
     listAllProducts(): Promise<IProduct[]>;
     findProductById(id: string): Promise<IProduct | null>;
+    listAllType(): Promise<Object[]>;
+    findTypeByName(name: string): Promise<IProduct | null>;
 }
 
 export interface IidProductRepository{
@@ -38,11 +40,12 @@ export interface ICompareProductRepository{
 }
 
 export interface ITopProductRepository{
-    topProductGroupByAge(minDate: Date, maxDate: Date): Promise<ITopSales[]>;
-    topProductGroupByGender(gender: string): Promise<ITopSales[]>;
-    topProductGroupByLocale(locale: string): Promise<ITopSales[]>;
-    topProductGroupByDate(date: Date): Promise<ITopSales[]>;
-    topProductGroupByType(type: string): Promise<ITopSales[]>;
-    topProductGroupByPrice(price: string): Promise<ITopSales[]>;
-    topProductGroupByReview(review: string): Promise<ITopSales[]>;
+    topProductsByAge(minDate: Date, maxDate: Date): Promise<ITopSales[]>;
+    topProductsByAmount(): Promise<ITopSales[]>;
+    topProductsByGender(gender: string): Promise<ITopSales[]>;
+    topProductsByLocale(locale: string): Promise<ITopSales[]>;
+    topProductsByDate(minDate: Date, maxDate: Date): Promise<ITopSales[]>;
+    topProductsByType(type: string): Promise<ITopSales[]>;
+    topProductsByPrice(minPrice: number, maxPrice: number): Promise<ITopSales[]>;
+    topProductsByReview(rating: number): Promise<ITopSales[]>;
 }

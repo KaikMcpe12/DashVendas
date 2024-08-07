@@ -3,20 +3,20 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { TopProductsController } from "../../controller/topProductsController";
 
-export async function topProductsByAgeRoute(app: FastifyInstance){
-    app.withTypeProvider<ZodTypeProvider>().post<{ Body: { minAge: number, maxAge: number } }>('/graph/top/age', {
+export async function topProductsByPriceRoute(app: FastifyInstance){
+    app.withTypeProvider<ZodTypeProvider>().post<{ Body: { minPrice: number, maxPrice: number } }>('/graph/top/price', {
         schema: {
             body: z.object({
-                minAge: z.coerce.number(),
-                maxAge: z.coerce.number(),
+                minPrice: z.coerce.number(),
+                maxPrice: z.coerce.number(),
             })
         }
     },async (req, reply) => {
-        const { minAge, maxAge } = req.body;
-
+        const { minPrice, maxPrice } = req.body;
+        
         const topProductsController = new TopProductsController()
 
-        const result = await topProductsController.topProductsByAge(minAge, maxAge)
+        const result = await topProductsController.topProductsByPrice(minPrice, maxPrice)
         
         return reply.status(201).send(result)
     })

@@ -3,7 +3,7 @@ import { dayjs } from "../lib/dayjs";
 import { IdProductRepository } from "../repositories/idProductRepository";
 import { ProductRepository } from "../repositories/ProductRepository";
 
-import customParse from 'dayjs/plugin/customParseFormat'
+import customParse from 'dayjs/plugin/customParseFormat';
 
 dayjs.extend(customParse)
 
@@ -166,4 +166,4 @@ class IdProductController{
     }
 }
 
-export { IdProductController }
+export { IdProductController };
