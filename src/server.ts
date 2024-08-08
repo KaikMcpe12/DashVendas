@@ -17,6 +17,9 @@ import { topProductsByPriceRoute } from './routes/topProducts/topProductsByPrice
 import { topProductsByReviewRoute } from './routes/topProducts/topProductsByReview'
 import { topProductsByTypeRoute } from './routes/topProducts/topProductsByType'
 import { compareProductsByAgeRoute } from './routes/compareProduct/compareProductsByAgeRoutes'
+import { compareProductsByGenderRoute } from './routes/compareProduct/compareProductsByGenderRoutes'
+import { compareProductsByLocaleRoute } from './routes/compareProduct/compareProductsByLocaleRoutes'
+import { compareProductsByDateRoute } from './routes/compareProduct/compareProductsByDateRoutes'
 
 const app: FastifyInstance = fastify()
 
@@ -46,6 +49,9 @@ app.register(topProductsByReviewRoute)
 app.register(topProductsByTypeRoute)
 
 app.register(compareProductsByAgeRoute)
+app.register(compareProductsByGenderRoute)
+app.register(compareProductsByLocaleRoute)
+app.register(compareProductsByDateRoute)
 
 app.listen({ port: env.PORT }, (err) => {
     console.log(err)

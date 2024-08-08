@@ -4,11 +4,11 @@ import { ProductRepository } from "../repositories/ProductRepository";
 
 import customParse from 'dayjs/plugin/customParseFormat';
 import { UserRepository } from "../repositories/userRepository";
-import { IIdProductController } from "../interfaces/productInterface";
+import { ICompareDataChart, ICompareProductsController, IDatasetChart, IIdProductController } from "../interfaces/productInterface";
 
 dayjs.extend(customParse)
 
-class CompareProductsController{
+class CompareProductsController implements ICompareProductsController{
     private productRepository;
     private userRepository;
     
@@ -17,7 +17,7 @@ class CompareProductsController{
         this.userRepository = new UserRepository()
     }
 
-    async compareProductsByAge(listId: string[]){
+    async compareProductsByAge(listId: string[]): Promise<ICompareDataChart>{
         let labels: string[] = [
             "3 - 6",
             "7 - 11",
@@ -27,8 +27,7 @@ class CompareProductsController{
             "50 +"
 	    ]
         
-        let listLabel: string[] = []
-        let data: (string[] | number[])[] = []
+        let datasets: IDatasetChart[] = []
         
         await Promise.all(listId.map(async (id) => {
             const pr = await this.idProductController.dataProductGroupByAge(id)
@@ -36,15 +35,92 @@ class CompareProductsController{
             if(!pr){
                 throw new ClientError('Erro in the seach of the product')
             }
-            listLabel.push(pr.label)
-            data.push(pr.data)
+            datasets.push({
+                label: pr.label,
+                data: pr.data,
+            })
         }))
 
 
         return {
             "labels": labels,
-            "label": listLabel,
-            "data": data
+            "datasets": datasets
+        }
+    }
+
+    async compareProductsByDate(listId: string[], date: Date): Promise<ICompareDataChart>{
+        let labels: string[] = []
+        
+        let datasets: IDatasetChart[] = []
+        
+        await Promise.all(listId.map(async (id) => {
+            const pr = await this.idProductController.seachProductByDate(id, date)
+            console.log(pr)
+            if(!pr){
+                throw new ClientError('Erro in the seach of the product')
+            }
+            labels = pr.labels
+            datasets.push({
+                label: pr.label,
+                data: pr.data,
+            })
+        }))
+
+
+        return {
+            "labels": labels,
+            "datasets": datasets
+        }
+    }
+
+    async compareProductsByGender(listId: string[]): Promise<ICompareDataChart>{
+        let labels: string[] = [
+            "Masculino",
+            "Feminino"
+	    ]
+        
+        let datasets: IDatasetChart[] = []
+        
+        await Promise.all(listId.map(async (id) => {
+            const pr = await this.idProductController.dataProductByGender(id)
+            console.log(pr)
+            if(!pr){
+                throw new ClientError('Erro in the seach of the product')
+            }
+            datasets.push({
+                label: pr.label,
+                data: pr.data,
+            })
+        }))
+
+
+        return {
+            "labels": labels,
+            "datasets": datasets
+        }
+    }
+
+    async compareProductsByLocale(listId: string[]): Promise<ICompareDataChart>{
+        let labels: string[] = []
+        
+        let datasets: IDatasetChart[] = []
+        
+        await Promise.all(listId.map(async (id) => {
+            const pr = await this.idProductController.dataProductByLocale(id)
+            console.log(pr)
+            if(!pr){
+                throw new ClientError('Erro in the seach of the product')
+            }
+            labels = pr.labels
+            datasets.push({
+                label: pr.label,
+                data: pr.data,
+            })
+        }))
+
+        return {
+            "labels": labels,
+            "datasets": datasets
         }
     }
 }

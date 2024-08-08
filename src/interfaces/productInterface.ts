@@ -18,10 +18,20 @@ export interface ITopSales{
     amount: number;
 }
 
+export interface IDatasetChart{
+    label: string,
+    data: string[] | number[]
+}
+
 export interface IDataChart{
     labels: string[],
     label: string,
     data: string[] | number[]
+}
+
+export interface ICompareDataChart{
+    labels: string[],
+    datasets: IDatasetChart[]
 }
 
 export interface IProductRepository{
@@ -72,4 +82,11 @@ export interface ITopProductsController{
     topProductsByPrice(minPrice: number, maxPrice: number): Promise<IDataChart>;
     topProductsByReview(rating: number): Promise<IDataChart>;
     topProductsByType(type: string): Promise<IDataChart>;
+}
+
+export interface ICompareProductsController{
+    compareProductsByAge(listId: string[]): Promise<ICompareDataChart>;
+    compareProductsByDate(listId: string[], date: Date): Promise<ICompareDataChart>;
+    compareProductsByGender(listId: string[]): Promise<ICompareDataChart>;
+    compareProductsByLocale(listId: string[]): Promise<ICompareDataChart>;
 }
