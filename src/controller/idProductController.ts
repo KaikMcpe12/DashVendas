@@ -1,4 +1,5 @@
 import { ClientError } from "../errors/client-error";
+import { IDataChart, IIdProductController } from "../interfaces/productInterface";
 import { dayjs } from "../lib/dayjs";
 import { IdProductRepository } from "../repositories/idProductRepository";
 import { ProductRepository } from "../repositories/ProductRepository";
@@ -7,7 +8,7 @@ import customParse from 'dayjs/plugin/customParseFormat';
 
 dayjs.extend(customParse)
 
-class IdProductController{
+class IdProductController implements IIdProductController{
     private idProductRepository;
     private productRepository;
     
@@ -16,7 +17,7 @@ class IdProductController{
         this.productRepository = new ProductRepository()
     }
 
-    async dataProductGroupByAge(id: string){
+    async dataProductGroupByAge(id: string): Promise<IDataChart>{
         const product = await this.productRepository.findProductById(id)
 
         if(!product){
@@ -52,7 +53,7 @@ class IdProductController{
         }
     }
 
-    async seachProductByDate(id: string, date: Date){
+    async seachProductByDate(id: string, date: Date): Promise<IDataChart>{
         const product = await this.productRepository.findProductById(id)
 
         if(!product){
@@ -117,7 +118,7 @@ class IdProductController{
         }
     }
 
-    async dataProductByGender(id: string){
+    async dataProductByGender(id: string): Promise<IDataChart>{
         const product = await this.productRepository.findProductById(id)
 
         if(!product){
@@ -141,7 +142,7 @@ class IdProductController{
         }
     }
 
-    async dataProductByLocale(id: string){
+    async dataProductByLocale(id: string): Promise<IDataChart>{
         const product = await this.productRepository.findProductById(id)
 
         if(!product){

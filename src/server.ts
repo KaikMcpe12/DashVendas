@@ -8,7 +8,7 @@ import { idProductByAgeRoute } from './routes/idProduct/idProductByAgeRoutes'
 import { idProductByDateRoute } from './routes/idProduct/idProductByDateRoutes'
 import { idProductByGenderRoute } from './routes/idProduct/idProductByGenderRoutes'
 import { idProductByLocaleRoute } from './routes/idProduct/idProductByLocaleRoutes'
-import { topProductsByAgeRoute } from './routes/topProducts/topProductsByAgeRoutes'
+import { topProductsByAgeRoute } from './routes/topProducts/topProductsByAge'
 import { topProductsByAmountRoute } from './routes/topProducts/topProductsByAmount'
 import { topProductsByDateRoute } from './routes/topProducts/topProductsByDate'
 import { topProductsByGenderRoute } from './routes/topProducts/topProductsByGender'
@@ -16,6 +16,7 @@ import { topProductsByLocaleRoute } from './routes/topProducts/topProductsByLoca
 import { topProductsByPriceRoute } from './routes/topProducts/topProductsByPrice'
 import { topProductsByReviewRoute } from './routes/topProducts/topProductsByReview'
 import { topProductsByTypeRoute } from './routes/topProducts/topProductsByType'
+import { compareProductsByAgeRoute } from './routes/compareProduct/compareProductsByAgeRoutes'
 
 const app: FastifyInstance = fastify()
 
@@ -43,6 +44,8 @@ app.register(topProductsByLocaleRoute)
 app.register(topProductsByPriceRoute)
 app.register(topProductsByReviewRoute)
 app.register(topProductsByTypeRoute)
+
+app.register(compareProductsByAgeRoute)
 
 app.listen({ port: env.PORT }, (err) => {
     console.log(err)

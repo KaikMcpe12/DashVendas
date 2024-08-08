@@ -4,7 +4,7 @@ import { z } from "zod"
 import { IdProductController } from "../../controller/idProductController";
 
 export async function idProductByLocaleRoute(app: FastifyInstance){
-    app.withTypeProvider<ZodTypeProvider>().get<{ Params: { id: string } }>('/graph/:id/locale', {
+    app.withTypeProvider<ZodTypeProvider>().get<{ Params: { id: string } }>('/graph/id/:id/locale', {
         schema: {
             params: z.object({
                 id: z.string(),

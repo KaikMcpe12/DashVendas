@@ -5,10 +5,11 @@ import { TopProductRepository } from "../repositories/topProductsRepository";
 
 import customParse from 'dayjs/plugin/customParseFormat';
 import { UserRepository } from "../repositories/userRepository";
+import { IDataChart, ITopProductsController } from "../interfaces/productInterface";
 
 dayjs.extend(customParse)
 
-class TopProductsController{
+class TopProductsController implements ITopProductsController{
     private topProductsRepository;
     private productRepository;
     private userRepository;
@@ -19,7 +20,7 @@ class TopProductsController{
         this.userRepository = new UserRepository()
     }
 
-    async topProductsByAge(minAge: number, maxAge: number){
+    async topProductsByAge(minAge: number, maxAge: number): Promise<IDataChart>{
         const [maxDate, minDate] = [dayjs().subtract(minAge,'y').toDate(), dayjs().subtract(maxAge, 'y').toDate()]
 
         const topProducts = await this.topProductsRepository.topProductsByAge(minDate, maxDate)
@@ -44,7 +45,7 @@ class TopProductsController{
         }
     }
 
-    async topProductsByAmount(){
+    async topProductsByAmount(): Promise<IDataChart>{
         const topProducts = await this.topProductsRepository.topProductsByAmount()
 
         let labels: string[] = []
@@ -67,7 +68,7 @@ class TopProductsController{
         }
     }
 
-    async topProductsByDate(minDate: Date, maxDate: Date){
+    async topProductsByDate(minDate: Date, maxDate: Date): Promise<IDataChart>{
         const topProducts = await this.topProductsRepository.topProductsByDate(minDate, maxDate)
         
         let labels: string[] = []
@@ -89,7 +90,7 @@ class TopProductsController{
         }
     }
 
-    async topProductsByGender(gender: string){
+    async topProductsByGender(gender: string): Promise<IDataChart>{
         const topProducts = await this.topProductsRepository.topProductsByGender(gender)
 
         let labels: string[] = []
@@ -112,7 +113,7 @@ class TopProductsController{
         }
     }
 
-    async topProductsByLocale(locale: string){
+    async topProductsByLocale(locale: string): Promise<IDataChart>{
         const localeIfExist = await this.userRepository.findLocaleByName(locale)
 
         if(!localeIfExist){
@@ -140,7 +141,7 @@ class TopProductsController{
         }
     }
 
-    async topProductsByPrice(minPrice: number, maxPrice: number){
+    async topProductsByPrice(minPrice: number, maxPrice: number): Promise<IDataChart>{
         const topProducts = await this.topProductsRepository.topProductsByPrice(minPrice, maxPrice)
 
         let labels: string[] = []
@@ -162,7 +163,7 @@ class TopProductsController{
         }
     }
 
-    async topProductsByReview(rating: number){
+    async topProductsByReview(rating: number): Promise<IDataChart>{
         if(rating < 0 || rating > 5){
             throw new ClientError('Rating invalid')
         }
@@ -188,7 +189,7 @@ class TopProductsController{
         }
     }
 
-    async topProductsByType(type: string){
+    async topProductsByType(type: string): Promise<IDataChart>{
         const typeIfExist = await this.productRepository.findTypeByName(type)
 
         if(!typeIfExist){

@@ -4,7 +4,7 @@ import { z } from "zod"
 import { IdProductController } from "../../controller/idProductController";
 
 export async function idProductByGenderRoute(app: FastifyInstance){
-    app.withTypeProvider<ZodTypeProvider>().get<{ Params: { id: string } }>('/graph/:id/gender', {
+    app.withTypeProvider<ZodTypeProvider>().get<{ Params: { id: string } }>('/graph/id/:id/gender', {
         schema: {
             params: z.object({
                 id: z.string(),

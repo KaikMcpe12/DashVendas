@@ -18,6 +18,12 @@ export interface ITopSales{
     amount: number;
 }
 
+export interface IDataChart{
+    labels: string[],
+    label: string,
+    data: string[] | number[]
+}
+
 export interface IProductRepository{
     listAllProducts(): Promise<IProduct[]>;
     findProductById(id: string): Promise<IProduct | null>;
@@ -48,4 +54,22 @@ export interface ITopProductRepository{
     topProductsByType(type: string): Promise<ITopSales[]>;
     topProductsByPrice(minPrice: number, maxPrice: number): Promise<ITopSales[]>;
     topProductsByReview(rating: number): Promise<ITopSales[]>;
+}
+
+export interface IIdProductController{
+    dataProductGroupByAge(id: string): Promise<IDataChart>;
+    seachProductByDate(id: string, date: Date): Promise<IDataChart>;
+    dataProductByGender(id: string): Promise<IDataChart>;
+    dataProductByLocale(id: string): Promise<IDataChart>;
+}
+
+export interface ITopProductsController{
+    topProductsByAge(minAge: number, maxAge: number): Promise<IDataChart>;
+    topProductsByAmount(): Promise<IDataChart>;
+    topProductsByDate(minDate: Date, maxDate: Date): Promise<IDataChart>;
+    topProductsByGender(gender: string): Promise<IDataChart>;
+    topProductsByLocale(locale: string): Promise<IDataChart>;
+    topProductsByPrice(minPrice: number, maxPrice: number): Promise<IDataChart>;
+    topProductsByReview(rating: number): Promise<IDataChart>;
+    topProductsByType(type: string): Promise<IDataChart>;
 }
