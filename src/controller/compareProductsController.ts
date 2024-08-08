@@ -9,13 +9,8 @@ import { ICompareDataChart, ICompareProductsController, IDatasetChart, IIdProduc
 dayjs.extend(customParse)
 
 class CompareProductsController implements ICompareProductsController{
-    private productRepository;
-    private userRepository;
     
-    constructor(private idProductController: IIdProductController){
-        this.productRepository = new ProductRepository()
-        this.userRepository = new UserRepository()
-    }
+    constructor(private idProductController: IIdProductController){}
 
     async compareProductsByAge(listId: string[]): Promise<ICompareDataChart>{
         let labels: string[] = [
@@ -31,7 +26,6 @@ class CompareProductsController implements ICompareProductsController{
         
         await Promise.all(listId.map(async (id) => {
             const pr = await this.idProductController.dataProductGroupByAge(id)
-            console.log(pr)
             if(!pr){
                 throw new ClientError('Erro in the seach of the product')
             }
@@ -55,7 +49,6 @@ class CompareProductsController implements ICompareProductsController{
         
         await Promise.all(listId.map(async (id) => {
             const pr = await this.idProductController.seachProductByDate(id, date)
-            console.log(pr)
             if(!pr){
                 throw new ClientError('Erro in the seach of the product')
             }
@@ -83,7 +76,6 @@ class CompareProductsController implements ICompareProductsController{
         
         await Promise.all(listId.map(async (id) => {
             const pr = await this.idProductController.dataProductByGender(id)
-            console.log(pr)
             if(!pr){
                 throw new ClientError('Erro in the seach of the product')
             }
@@ -107,7 +99,6 @@ class CompareProductsController implements ICompareProductsController{
         
         await Promise.all(listId.map(async (id) => {
             const pr = await this.idProductController.dataProductByLocale(id)
-            console.log(pr)
             if(!pr){
                 throw new ClientError('Erro in the seach of the product')
             }

@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "vercel-build": "prisma generate && npx prisma migrate deploy"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kaik",
   "license": "ISC",
   "devDependencies": {
     "@prisma/client": "^5.17.0",
