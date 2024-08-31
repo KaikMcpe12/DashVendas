@@ -22,18 +22,13 @@ class CompareProductsController implements ICompareProductsController{
             "50 +"
 	    ]
         
-        let datasets: IDatasetChart[] = []
-        
-        await Promise.all(listId.map(async (id) => {
-            const pr = await this.idProductController.dataProductGroupByAge(id)
-            if(!pr){
-                throw new ClientError('Erro in the seach of the product')
+        let datasets: IDatasetChart[] = await Promise.all(listId.map(async (id) => {
+            const { label, data } = await this.idProductController.dataProductGroupByAge(id);
+            if (!label || !data) {
+                throw new ClientError('Erro in the search of the product');
             }
-            datasets.push({
-                label: pr.label,
-                data: pr.data,
-            })
-        }))
+            return { label, data };
+        }));
 
 
         return {
@@ -43,22 +38,15 @@ class CompareProductsController implements ICompareProductsController{
     }
 
     async compareProductsByDate(listId: string[], date: Date): Promise<ICompareDataChart>{
-        let labels: string[] = []
-        
-        let datasets: IDatasetChart[] = []
-        
-        await Promise.all(listId.map(async (id) => {
-            const pr = await this.idProductController.seachProductByDate(id, date)
-            if(!pr){
-                throw new ClientError('Erro in the seach of the product')
-            }
-            labels = pr.labels
-            datasets.push({
-                label: pr.label,
-                data: pr.data,
-            })
-        }))
+        const { labels } = await this.idProductController.dataProductByLocale(listId[0]);
 
+        let datasets: IDatasetChart[] = await Promise.all(listId.map(async (id) => {
+            const { label, data } = await this.idProductController.seachProductByDate(id, date);
+            if (!label || !data) {
+                throw new ClientError('Erro in the search of the product');
+            }
+            return { label, data };
+        }));
 
         return {
             "labels": labels,
@@ -72,19 +60,15 @@ class CompareProductsController implements ICompareProductsController{
             "Feminino"
 	    ]
         
-        let datasets: IDatasetChart[] = []
-        
-        await Promise.all(listId.map(async (id) => {
-            const pr = await this.idProductController.dataProductByGender(id)
-            if(!pr){
-                throw new ClientError('Erro in the seach of the product')
-            }
-            datasets.push({
-                label: pr.label,
-                data: pr.data,
-            })
-        }))
+        // let datasets: IDatasetChart[] = []
 
+        let datasets: IDatasetChart[] = await Promise.all(listId.map(async (id) => {
+            const { label, data } = await this.idProductController.dataProductByGender(id);
+            if (!label || !data) {
+                throw new ClientError('Erro in the search of the product');
+            }
+            return { label, data };
+        }));
 
         return {
             "labels": labels,
@@ -93,21 +77,15 @@ class CompareProductsController implements ICompareProductsController{
     }
 
     async compareProductsByLocale(listId: string[]): Promise<ICompareDataChart>{
-        let labels: string[] = []
-        
-        let datasets: IDatasetChart[] = []
-        
-        await Promise.all(listId.map(async (id) => {
-            const pr = await this.idProductController.dataProductByLocale(id)
-            if(!pr){
-                throw new ClientError('Erro in the seach of the product')
+        const { labels } = await this.idProductController.dataProductByLocale(listId[0]);
+
+        let datasets: IDatasetChart[] = await Promise.all(listId.map(async (id) => {
+            const { label, data } = await this.idProductController.dataProductByLocale(id);
+            if (!label || !data) {
+                throw new ClientError('Erro in the search of the product');
             }
-            labels = pr.labels
-            datasets.push({
-                label: pr.label,
-                data: pr.data,
-            })
-        }))
+            return { label, data };
+        }));
 
         return {
             "labels": labels,

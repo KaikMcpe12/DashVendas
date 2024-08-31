@@ -53,6 +53,10 @@ app.register(compareProductsByGenderRoute)
 app.register(compareProductsByLocaleRoute)
 app.register(compareProductsByDateRoute)
 
+//Alterar os nomes dos arquivos das rotas
+//Fixar o parâmetro de compareProductsController
+//Limpar o código
+
 app.listen({ port: env.PORT }, (err) => {
     console.log(err)
     console.log('Server is running')
